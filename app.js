@@ -1,5 +1,5 @@
-// import dotenv from "dotenv";
-// dotenv.config({ path: "./config.env" });
+import dotenv from "dotenv";
+dotenv.config({ path: "./config.env" });
 import express from "express";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
@@ -10,6 +10,7 @@ import sanitize from "express-mongo-sanitize";
 import CustomError from "./utils/customError.js";
 import globalErrorHandler from "./controllers/error.controller.js";
 import setupSwagger from "./configs/swagger.config.js";
+import authRouter from "./routes/auth.route.js";
 
 const app = express();
 app.use(
@@ -53,6 +54,7 @@ app.use(sanitize());
 app.use(express.json());
 
 //Route Mounting
+app.use("/api/v1/auth", authRouter);
 
 setupSwagger(app);
 //404-Error Handler
