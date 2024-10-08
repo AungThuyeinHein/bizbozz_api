@@ -3,10 +3,6 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const menuSetupSchema = new Schema({
-  tables: {
-    type: Number,
-    required: true,
-  },
   category: [
     {
       name: { type: String, required: true, unique: true },

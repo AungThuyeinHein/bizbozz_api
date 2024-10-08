@@ -10,6 +10,7 @@ import sanitize from "express-mongo-sanitize";
 import CustomError from "./utils/customError.js";
 import globalErrorHandler from "./controllers/error.controller.js";
 import setupSwagger from "./configs/swagger.config.js";
+import categoryListingRouter from "./routes/categoryListing.route.js";
 
 const app = express();
 app.use(
@@ -53,6 +54,7 @@ app.use(sanitize());
 app.use(express.json());
 
 //Route Mounting
+app.use("/api/v1/categories", categoryListingRouter);
 
 setupSwagger(app);
 //404-Error Handler
