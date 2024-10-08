@@ -1,5 +1,5 @@
 import Db from "./configs/db.configs.js";
-// import process from "node:process";
+import process from "node:process";
 process.on("uncaughtException", (err) => {
   console.log("Inside uncaughtException handler");
   console.log(err.name, err.message);
@@ -10,7 +10,7 @@ import app from "./app.js";
 
 Db();
 
-const port = process.env.PORT || 5500;
+const port = process.env.PORT || 5000;
 
 const server = app.listen(port, () => {
   console.log(`SERVER is Running at PORT:${port}`);
