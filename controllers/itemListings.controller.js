@@ -89,3 +89,23 @@ export const addItemToCategory = asyncErrorHandler(async (req, res, next) => {
     data: updatedMenu,
   });
 });
+
+export const getAllItems = asyncErrorHandler(async (req, res, next) => {
+  // Step 1: Find all Menu documents
+  const menus = await Menu.find();
+
+  // Step 2: Check if any menu exists
+  if (!menus || menus.length === 0) {
+    return next(
+      new CustomError(404, `No Menu at the moment!\nSet up your shop menu.`)
+    );
+  }
+
+  // Step 3: Respond with the menus
+  res.status(200).json({
+    code: 200,
+    status: "success",
+    message: "All items retrieved successfully.",
+    data: menus,
+  });
+});
