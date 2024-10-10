@@ -12,6 +12,7 @@ import globalErrorHandler from "./controllers/error.controller.js";
 import setupSwagger from "./configs/swagger.config.js";
 import authRouter from "./routes/auth.route.js";
 import categoryListingRouter from "./routes/categoryListing.route.js";
+import itemsListingRouter from "./routes/itemListings.route.js";
 
 const app = express();
 app.use(
@@ -57,6 +58,7 @@ app.use(express.json());
 //Route Mounting
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/categories", categoryListingRouter);
+app.use("/api/v1/menu", itemsListingRouter);
 
 setupSwagger(app);
 //404-Error Handler
