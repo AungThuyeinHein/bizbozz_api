@@ -15,16 +15,22 @@ export const addItemToCategory = asyncErrorHandler(async (req, res, next) => {
   });
 
   if (!categoryExists) {
-    return next(new CustomError(400, "Category does not exist."));
+    return next(
+      new CustomError(400, `Category name: ${categoryName} does not exist.`)
+    );
   }
 
-  // Step 2: Find the Menu document with the given category or create one
+  // Step 2: Find or create the Menu document with the given category
   let menu = await Menu.findOne({ "category.name": categoryName });
 
   if (!menu) {
+    // Create a new menu if not found
     menu = new Menu({
       category: [{ name: categoryName, items: [] }],
     });
+
+    // Save the new menu document
+    await menu.save();
   }
 
   // Step 3: Upload the image to Cloudinary
@@ -76,10 +82,6 @@ export const addItemToCategory = asyncErrorHandler(async (req, res, next) => {
     },
     { new: true, runValidators: true }
   );
-
-  if (!updatedMenu) {
-    return next(new CustomError(404, "Menu not found for the category."));
-  }
 
   // Step 5: Respond with the updated menu
   res.status(201).json({
