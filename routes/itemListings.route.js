@@ -4,6 +4,7 @@ import {
   addItemToCategory,
   getAllItems,
   deleteItemByDishId,
+  updateItemInCategory,
 } from "../controllers/itemListings.controller.js";
 import upload from "../middlewares/multerImageUpload.js";
 
@@ -13,5 +14,10 @@ const router = express.Router();
 router.post("/add-item", upload.single("dishImage"), addItemToCategory);
 router.get("/", getAllItems);
 router.delete("/items/:dishId", deleteItemByDishId);
+router.patch(
+  "/items/:itemId",
+  upload.single("dishImage"),
+  updateItemInCategory
+);
 
 export default router;

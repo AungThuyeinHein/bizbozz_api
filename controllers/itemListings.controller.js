@@ -133,3 +133,73 @@ export const deleteItemByDishId = asyncErrorHandler(async (req, res, next) => {
     data: updatedMenu,
   });
 });
+
+export const updateItemInCategory = asyncErrorHandler(
+  async (req, res, next) => {
+    const { itemId } = req.params;
+    const { dishName, price } = req.body;
+
+    const menu = await Menu.findOne({ "items._id": itemId }, { "items.$": 1 });
+
+    if (!menu) {
+      return next(new CustomError(404, `Item with ID ${itemId} not found.`));
+    }
+
+    const oldImageUrl = menu.items[0].dishImage;
+    let dishImage;
+
+    if (req.file) {
+      const uploadPromise = new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          {
+            resource_type: "image",
+          },
+          (error, result) => {
+            if (error) {
+              reject(
+                new CustomError(500, "Error uploading image to Cloudinary.")
+              );
+            } else {
+              resolve(result.secure_url);
+            }
+          }
+        );
+
+        streamifier.createReadStream(req.file.buffer).pipe(stream);
+      });
+
+      try {
+        dishImage = await uploadPromise;
+
+        const imagePublicId = oldImageUrl.split("/").pop().split(".")[0];
+        await cloudinary.uploader.destroy(imagePublicId);
+      } catch (error) {
+        return next(error);
+      }
+    }
+
+    // Step 4: Update the specific item in the category
+    const updatedMenu = await Menu.findOneAndUpdate(
+      { "items._id": itemId },
+      {
+        $set: {
+          "items.$.dishName": dishName,
+          "items.$.price": price,
+          ...(dishImage && { "items.$.dishImage": dishImage }),
+        },
+      },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedMenu) {
+      return next(new CustomError(404, `Item with ID ${itemId} not found.`));
+    }
+
+    res.status(200).json({
+      code: 200,
+      status: "success",
+      message: "Item updated successfully.",
+      data: updatedMenu,
+    });
+  }
+);
