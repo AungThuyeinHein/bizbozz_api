@@ -13,6 +13,6 @@ const menuSetupSchema = new Schema({
   ],
 });
 
-const Menu = mongoose.model("menu", menuSetupSchema);
+const Menu = mongoose.model("Menu", menuSetupSchema);
 
 export default Menu;
