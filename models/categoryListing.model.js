@@ -12,7 +12,7 @@ const categoryListingsSchema = new Schema({
 });
 
 const CategoryListings = mongoose.model(
-  "CategoryListing",
+  "CategoryListings",
   categoryListingsSchema
 );
 
