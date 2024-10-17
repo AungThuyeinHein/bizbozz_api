@@ -70,7 +70,7 @@ export const getQueueOrders = asyncErrorHandler(async (req, res, next) => {
   });
 
   if (!activeOrders.length) {
-    return next(new CustomError(404, "No active orders found."));
+    return next(new CustomError(200, "No active orders found."));
   }
 
   res.status(200).json({
