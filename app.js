@@ -60,7 +60,7 @@ app.use(express.json());
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/categories", categoryListingRouter);
 app.use("/api/v1/menu", itemsListingRouter);
-app.use("/api/v1/order", orderRouter);
+app.use("/api/v1/orders", orderRouter);
 
 setupSwagger(app);
 //404-Error Handler

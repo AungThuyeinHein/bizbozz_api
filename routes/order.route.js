@@ -1,13 +1,15 @@
 import express from "express";
 import {
   confirmOrder,
-  confirmPayment,
-  getQueueOrders,
+  getAllOrders,
+  getOrderById,
+  getRevenueReport,
 } from "../controllers/order.controller.js";
 const router = express.Router();
 
 router.post("/", confirmOrder);
-router.put("/payment/:orderId", confirmPayment);
-router.get("/queue", getQueueOrders);
+router.get("/", getAllOrders);
+router.get("/:id", getOrderById);
+router.get("/revenue-report", getRevenueReport);
 
 export default router;
