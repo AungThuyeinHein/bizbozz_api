@@ -58,7 +58,7 @@ app.use(express.json());
 //Route Mounting
 app.use("/api/v1/categories", categoryListingRouter);
 app.use("/api/v1/menu", itemsListingRouter);
-app.use("/api/v1/order", orderRouter);
+app.use("/api/v1/orders", orderRouter);
 
 setupSwagger(app);
 //404-Error Handler
