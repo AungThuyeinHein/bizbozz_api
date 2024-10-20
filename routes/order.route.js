@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.post("/", confirmOrder);
 router.get("/", getAllOrders);
-router.get("/:id", getOrderById);
 router.get("/revenue-report", getRevenueReport);
+router.get("/:id", getOrderById);
 
 export default router;
