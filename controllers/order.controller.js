@@ -112,7 +112,8 @@ const getStartDate = (type) => {
   if (type === "daily") {
     return new Date(now.setHours(0, 0, 0, 0));
   } else if (type === "weekly") {
-    const startOfWeek = now.getDate() - now.getDay();
+    const startOfWeek =
+      now.getDate() - now.getDay() + (now.getDay() === 0 ? -6 : 1);
     return new Date(now.setDate(startOfWeek));
   } else if (type === "monthly") {
     return new Date(now.getFullYear(), now.getMonth(), 1);
@@ -153,7 +154,7 @@ export const getRevenueReport = asyncErrorHandler(async (req, res, next) => {
   const dishesSold = {};
 
   orders.forEach((order) => {
-    totalRevenue += order.totalPrice;
+    totalRevenue += order.finalPrice;
     ordersCount += 1;
 
     order.orders.forEach((item) => {
