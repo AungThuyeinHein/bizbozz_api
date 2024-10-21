@@ -112,9 +112,12 @@ const getStartDate = (type) => {
   if (type === "daily") {
     return new Date(now.setHours(0, 0, 0, 0));
   } else if (type === "weekly") {
-    const startOfWeek =
-      now.getDate() - now.getDay() + (now.getDay() === 0 ? -6 : 1);
-    return new Date(now.setDate(startOfWeek));
+    const dayOfWeek = now.getDay(); // Sunday - Saturday : 0 - 6
+    const startOfWeek = new Date(
+      now.setDate(now.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1))
+    ); // Get last Monday
+    startOfWeek.setHours(0, 0, 0, 0); // Reset time
+    return startOfWeek;
   } else if (type === "monthly") {
     return new Date(now.getFullYear(), now.getMonth(), 1);
   }
